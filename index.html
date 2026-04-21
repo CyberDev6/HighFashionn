@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Fashion by J.O.L | Single Page</title>
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --bg-dark: #0b0b0b;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --accent-green: #44db5e;
+            --font-main: 'Helvetica Neue', Arial, sans-serif;
+            --font-logo: 'Baskerville', 'Georgia', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-white);
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        /* Floating Components */
+        .chat-widget {
+            position: fixed;
+            bottom: 85px;
+            right: 15px;
+            background: #2c2c2c;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-widget::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            margin-left: 10px;
+            border: 1px solid #2c2c2c;
+        }
+
+        .currency-selector {
+            position: fixed;
+            bottom: 85px;
+            left: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            color: white;
+        }
+
+        .logo {
+            font-family: var(--font-logo);
+            font-size: 22px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        /* Visual Sections (Long Page Flow) */
+        .hero {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 80px;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .hero-btn {
+            background: white;
+            color: black;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        .dot.active {
+            background: white;
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        /* Product Grids */
+        .section-padding {
+            padding: 40px 15px;
+        }
+
+        .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .heading {
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .link-underlined {
+            font-size: 13px;
+            text-decoration: underline;
+            margin-bottom: 30px;
+            display: block;
+            color: black;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .p-name {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            padding: 0 5px;
+        }
+
+        /* REBRANDED PRICE TAG */
+        .p-price {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            border-bottom: 1px solid #f0f0f0;
+            display: inline-block;
+            padding-bottom: 2px;
+        }
+
+        .p-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ADD/REMOVE STEPPER */
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #f4f4f4;
+            width: fit-content;
+            margin: 8px auto;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .step-btn {
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 5px;
+            user-select: none;
+        }
+
+        /* SIZE SELECTOR */
+        .size-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .size-box {
+            font-size: 10px;
+            border: 1px solid #eee;
+            padding: 2px 5px;
+            color: #999;
+        }
+
+        /* Cart Button Style */
+        .cart-btn {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1000;
+            border: 1px solid #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- NEW STYLES FOR PAYMENT & ABOUT (RESPONSIVE) --- */
+        .checkout-section {
+            padding: 60px 20px;
+            background: #fff;
+        }
+
+        .checkout-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .checkout-form,
+        .about-content {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .discount-bar {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 14px;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 15px;
+            background: #000;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .about-text {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 60px 20px 100px;
+        }
+
+        .footer-logo {
+            width: 160px;
+            margin-bottom: 25px;
+            filter: invert(1);
+        }
+
+        .footer-text {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .accordion {
+            border-top: 1px solid #333;
+            padding: 18px 0;
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .store-loc {
+            margin-top: 40px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* Safari Bottom Bar Placeholder */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: #f9f9f9;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <span>&#9776;</span>
+        <div class="logo">highfashion</div>
+        <div>&#128269; &nbsp; &#128722;</div>
+    </header>
+
+    <div class="currency-selector">NGN &#9662;</div>
+    <div class="chat-widget">Chat with us</div>
+
+    <div class="cart-btn" onclick="goToCheckout()">PICKED ITEMS: <span id="cart-count">0</span></div>
+
+    <section class="hero"
+        style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('./photos/imgi_13_576375560_18090518900505895_7214182812868012337_n.jpg');">
+        <p class="hero-title">Explore Our New Collection</p>
+        <a href="#" class="hero-btn">SHOP NOW</a>
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </section>
+
+    <div class="discount-bar">First time buyers get 10% discount</div>
+
+    <section class="section-padding">
+        <p class="label">New In</p>
+        <h2 class="heading">Explore Our New Collection</h2>
+        <a href="#" class="link-underlined">Shop New In</a>
+
+        <div class="grid">
+            <div class="card">
+                <img src="./photos/jacket.jpg" alt="Stone Jacket">
+                <p class="p-name">HF Stone Leather Jacket</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦1,433,100.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/imgi_47_HFNOV3.jpg" alt="Embossed Jacket">
+                <p class="p-name">HF Embossed Leather Jacket</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦1,433,100.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/trouser.jpg" alt="Tracksuit">
+                <p class="p-name">HF Dominion Tracksuit Top</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦430,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/imgi_44_HFNOV31.jpg" alt="Hoodie">
+                <p class="p-name">HF Balaclava Rhinestone Hoodie Top</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦501,600.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/imgi_47_HFNOV3.jpg" alt="Item 5">
+                <p class="p-name">HF Classic Tee</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦287,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/imgi_37_HFNOV33.jpg" alt="Item 6">
+                <p class="p-name">HF Knitted Jumper</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦358,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/cmm.jpg" alt="Item 7">
+                <p class="p-name">HF Reflective Tee</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦287,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/imgi_42_HF_SEPT7.jpg" alt="Item 8">
+                <p class="p-name">HF Cargo Pants</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦430,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/imgi_12_582850792_18090786809505895_7973532883645110387_n.jpg" alt="Item 8">
+                <p class="p-name">HF Black Croc Leather Set</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦2,000,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/imgi_5_619272259_18098071520505895_8178128091837313683_n.jpg" alt="Item 8">
+                <p class="p-name">HF Knitted Jumper.</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦350,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/top.jpg" alt="Item 8">
+                <p class="p-name">HF Reflective Shirt.</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦300,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/imgi_11_582518162_18091187678505895_4933929432674356650_n.jpg" alt="Item 8">
+                <p class="p-name">HF Mesh Longsleeve</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦400,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+
+            <div class="card">
+                <img src="./photos/001.jpg" alt="Item 8">
+                <p class="p-name">HF Polo Shirt</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦400,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/002.jpg" alt="Item 8">
+                <p class="p-name">HF Polo Shirt</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦400,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/003.jpg" alt="Item 8">
+                <p class="p-name">HF Polo Shirt.</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦400,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+            <div class="card">
+                <img src="./photos/004.jpg" alt="Item 8">
+                <p class="p-name">Northern Knot set</p>
+                <div class="size-row"><div class="size-box">S</div><div class="size-box">M</div><div class="size-box">L</div></div>
+                <p class="p-price">₦550,000.00</p>
+                <div class="stepper"><span onclick="updateCart(-1)">-</span><span>QTY</span><span onclick="updateCart(1)">+</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="checkout-section" id="secure-checkout">
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <h2 class="heading" style="text-align: left;">Secure Checkout</h2>
+                <form>
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Home Delivery Address</label>
+                        <input type="text" placeholder="Lekki, Lagos, Nigeria" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+234..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Debit/Credit Card Number</label>
+                        <input type="text" placeholder="0000 0000 0000 0000" required>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex: 2;">
+                            <label>Expiry Date</label>
+                            <input type="text" placeholder="MM/YY" required>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label>CVV</label>
+                            <input type="password" placeholder="123" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-pay">Pay & Order Now</button>
+                </form>
+            </div>
+
+            <div class="about-content">
+                <h2 class="heading" style="text-align: left;">Why Choose High Fashion</h2>
+                <p class="about-text">
+                    At High Fashion by J.O.L, we believe that your wardrobe is a canvas for your individuality and a
+                    statement of your personal artistry. We bridge the gap between contemporary streetwear and high-end
+                    luxury, ensuring every piece tells a story of craftsmanship and exclusivity. By choosing us, you
+                    aren't just buying clothes; you are investing in premium quality fabrics and designs that are
+                    meticulously tailored to make you stand out. Join a community of trendsetters who value
+                    sophistication and bold expression. Experience fashion that doesn't just follow trends—it defines
+                    them.
+                </p>
+                <div class="store-loc" style="margin-top: 0; color: #000;">
+                    <p><strong>OFFICE ADDRESS:</strong></p>
+                    <p>SHOP 38/39, AARON'S LEKKI MALL, ADMIRALTY WAY, LAGOS, NIGERIA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="font-size: 30px; margin-bottom: 20px;">highfashion</div>
+        <p class="footer-text">At High Fashion By Jol, we believe that fashion is an expression of individuality and
+            artistry.</p>
+
+        <div class="accordion"><span>Quick Link</span><span>+</span></div>
+        <div class="accordion"><span>Shop</span><span>+</span></div>
+
+        <div class="store-loc">
+            <p>Operating hours: Monday – Saturday (10am -8pm)<br>Sunday (12pm-8pm)</p>
+            <br>
+            <p>SHOP 38/39, AARON'S LEKKI MALL, ADMIRALTY WAY, LAGOS, NIGERIA</p>
+            <a href="#" style="color:white; font-weight:bold;">GET DIRECTIONS</a>
+        </div>
+    </footer>
+
+    <div class="bottom-nav">
+        <span>&#10094;</span><span>&#10095;</span><span>&#8682;</span><span>&#128214;</span><span>&#10064;</span>
+    </div>
+
+    <script>
+        let picks = 0;
+        function updateCart(change) {
+            picks += change;
+            if (picks < 0) picks = 0;
+            document.getElementById('cart-count').innerText = picks;
+        }
+
+        function goToCheckout() {
+            if (picks > 0) {
+                document.getElementById('secure-checkout').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("Pick an item first!");
+            }
+        }
+    </script>
+
+</body>
+</html>
